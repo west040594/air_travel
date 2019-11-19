@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title})">
+    <meta charset="UTF-8">
+    <title th:text="${data.city.name}"></title>
+</head>
+<body>
+    <section th:replace="layout :: nav-section"></section>
+    <div class="my-md-4 container">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <b>Наименование: </b> <span th:text="${data.city.name}"> </span>
+                </h5>
+            </div>
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item" >
+                    <b>Код: </b> <span th:text="${data.city.code}"></span>
+                </li>
+                <li class="list-group-item">
+                    <b>Страна: </b> <span th:text="${data.city.country.name}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

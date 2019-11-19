@@ -1,0 +1,18 @@
+
+server:
+  port: 8080
+
+neo4j:
+  host: bolt://localhost
+  port: 7687
+  username: neo4j
+  password: password
+
+
+spring:
+  data:
+    neo4j:
+      uri: ${neo4j.host}:${neo4j.port}
+      username: ${neo4j.username}
+      password: ${neo4j.password}
+

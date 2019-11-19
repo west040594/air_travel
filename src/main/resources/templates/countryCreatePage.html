@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title})">
+    <meta charset="UTF-8">
+    <title>Создать страну</title>
+</head>
+<body>
+    <section th:replace="layout :: nav-section"></section>
+    <div class="my-md-4 container">
+        <h1>Создать страну</h1>
+        <form method="post" th:action="@{/country/create}" id="countryForm" th:object="${countryForm}">
+
+            <div class="form-group">
+                <label for="name" class="control-label">Наименование</label>
+                <input id="name" type="text" class="form-control" th:field="*{name}"/>
+                <p th:each="error: ${#fields.errors('name')}"
+                   th:text="${error}">Ошибка валидации</p>
+            </div>
+
+            <div class="form-group">
+                <label for="code" class="control-label">Код</label>
+                <input id="code" type="text" class="form-control" th:field="*{code}"/>
+                <p th:each="error : ${#fields.errors('code')}"
+                   th:text="${error}">Ошибка валидации</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Принять</button>
+        </form>
+    </div>
+</body>
+</html>

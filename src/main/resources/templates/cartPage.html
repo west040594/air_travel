@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title})">
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+</head>
+<body>
+<section th:replace="layout :: nav-section"></section>
+   <div class="row">
+       <div class="col-7">
+           <table class="table" id="bookingCart">
+               <thead>
+                <tr>
+                    <th colspan="6" scope="col">Корзина</th>
+                    <th scope="col">
+                        <button class="btn btn-danger btn-sm" role="removeAllCartItems">Удалить все</button>
+                    </th>
+                </tr>
+
+                <tr>
+                    <th scope="col">Рейс</th>
+                    <th scope="col">Откуда</th>
+                    <th scope="col">Куда</th>
+                    <th scope="col">Место</th>
+                    <th scope="col">Вылет</th>
+                    <th scope="col">Прилет</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col"></th>
+                </tr>
+               </thead>
+               <tbody th:each="booking : ${session.cart.itemList}">
+                    <tr th:attr="data-seatid=${booking.seat.id}">
+                        <td class="flightName" th:text="${booking.flight.name}"></td>
+                        <td class="origination" th:text="${booking.flight.origination.name}"></td>
+                        <td class="destination" th:text="${booking.flight.destination.name}"></td>
+                        <td class="seatNumber" th:text="${booking.seat.seat.seatNumber}"></td>
+                        <td class="departureTime" th:text="${#temporals.format(booking.flight.departureTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td class="arrivalTime" th:text="${#temporals.format(booking.flight.arrivalTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td class="seatPrice" th:text="${booking.seat.price}"></td>
+                        <td><btn class="btn btn-danger btn-sm" role="removeCartItem" th:attr="data-flightSeatId=${booking.seat.id}">-</btn></td>
+                    </tr>
+               </tbody>
+               <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <span>Общая цена</span>
+                        <span class="cart-total"><b th:text="${session.cart.total}"></b></span>
+                    </td>
+                </tr>
+               </tfoot>
+           </table>
+       </div>
+       <div class="col-5">
+           <form method="post" th:action="@{/booking/cart}" id="bookingForm" th:object="${bookingForm}">
+
+               <input id="clientId"  type="hidden"  class="form-control" th:field="*{clientId}"/>
+
+               <div class="form-group">
+                   <label for="first-name" class="control-label">Имя</label>
+                   <input id="first-name"  type="text" class="form-control" th:field="*{firstName}"/>
+                   <p th:each="error: ${#fields.errors('firstName')}"
+                      th:text="${error}">Ошибка валидации</p>
+               </div>
+
+               <div class="form-group">
+                   <label for="last-name" class="control-label">Фамилия</label>
+                   <input id="last-name" type="text" class="form-control" th:field="*{lastName}"/>
+                   <p th:each="error : ${#fields.errors('lastName')}"
+                      th:text="${error}">Ошибка валидации</p>
+               </div>
+
+
+               <div class="form-group">
+                   <label for="passport" class="control-label">Паспорт</label>
+                   <input id="passport" type="text" class="form-control" th:field="*{passport}"/>
+                   <p th:each="error : ${#fields.errors('passport')}"
+                      th:text="${error}">Ошибка валидации</p>
+               </div>
+
+
+               <div class="form-group">
+                   <label for="phone" class="control-label">Телефон</label>
+                   <input id="phone" type="text" class="form-control" th:field="*{phone}"/>
+                   <p th:each="error : ${#fields.errors('phone')}"
+                      th:text="${error}">Ошибка валидации</p>
+               </div>
+
+               <button type="submit" class="btn btn-primary">Принять</button>
+           </form>
+       </div>
+   </div>
+</body>
+</html>

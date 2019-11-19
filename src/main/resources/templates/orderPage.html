@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title})">
+    <meta charset="UTF-8">
+    <title th:text="${data.order.id}"></title>
+</head>
+<body>
+    <section th:replace="layout :: nav-section"></section>
+    <div class="my-md-4 container">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <b>Цена: </b> <span th:text="${data.order.price}"></span>
+                    <b>Клиент: </b> <span th:text="${data.order.clientData}"></span>
+                </h5>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Номер</th>
+                    <th scope="col">Класс</th>
+                    <th scope="col">Стаус</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Рейс</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="booking : ${data.order.bookings}">
+                    <th th:text="${booking.seat.seat.seatNumber}"  scope="row"></th>
+                    <td th:text="${booking.seat.seat.travelClass}" ></td>
+                    <td class="seatStatus" th:text="${booking.seat.status}" ></td>
+                    <td th:text="${booking.seat.price}" ></td>
+                    <td th:text="${booking.flight.name}" ></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

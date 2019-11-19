@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title})">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <section th:replace="layout :: nav-section"></section>
+    <div class="my-md-4 container">
+
+        <div th:each="flight : ${data.flights}">
+            <div class="card">
+                <div class="card-header">
+                    <b>Дата прилёта: </b><span th:text="${#temporals.format(flight.departureTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                    <b>Дата вылета: </b><span th:text="${#temporals.format(flight.arrivalTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${flight.name}">Название рейста</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item" >
+                        <b>Вылет: </b> <span th:text="${flight.origination.name}"></span> (<span th:text="${flight.origination.city.name}"></span>)
+                        <b>Прилёт: </b>  <span th:text="${flight.destination.name}"></span> (<span th:text="${flight.destination.city.name}"></span>)
+                    </li>
+                    <li class="list-group-item">
+                        <b>Авиакомпания: </b> <span th:text="${flight.airline.name}"></span>
+                        <b>Самолёт: </b> <span th:text="${flight.aircraft.manufacturer.name}"></span> <span th:text="${flight.aircraft.modelNumber}"></span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Статус: </b> <span th:text="${flight.status}"></span>
+                    </li>
+                </ul>
+                <div class="card-body">
+                    <a th:href="@{'/flight/' + ${flight.id}}" class="btn btn-primary card-link">Перейти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

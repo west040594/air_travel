@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title})">
+    <meta charset="UTF-8">
+    <title>Рейс</title>
+</head>
+<body>
+
+    <section th:replace="layout :: nav-section"></section>
+    <div class="my-md-4 container">
+        <div class="card">
+            <div class="card-header">
+                <b>Дата прилёта: </b><span th:text="${#temporals.format(data.flight.departureTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                <b>Дата вылета: </b><span th:text="${#temporals.format(data.flight.arrivalTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title" th:text="${data.flight.name}">Название рейста</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item" >
+                    <b>Вылет: </b> <span th:text="${data.flight.origination.name}"></span> (<span th:text="${data.flight.origination.city.name}"></span>)
+                    <b>Прилёт: </b>  <span th:text="${data.flight.destination.name}"></span> (<span th:text="${data.flight.destination.city.name}"></span>)
+                </li>
+                <li class="list-group-item">
+                    <b>Авиакомпания: </b> <span th:text="${data.flight.airline.name}"></span>
+                    <b>Самолёт: </b> <span th:text="${data.flight.aircraft.manufacturer.name}"></span> <span th:text="${data.flight.aircraft.modelNumber}"></span>
+                </li>
+                <li class="list-group-item">
+                    <b>Статус: </b> <span th:text="${data.flight.status}"></span>
+                </li>
+            </ul>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Номер</th>
+                        <th scope="col">Класс</th>
+                        <th scope="col">Стаус</th>
+                        <th scope="col">Цена</th>
+                        <th scope="col">Бронь</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="seat : ${data.flight.seats}">
+                        <th th:text="${seat.seat.seatNumber}"  scope="row"></th>
+                        <td th:text="${seat.seat.travelClass}" ></td>
+                        <td class="seatStatus" th:text="${seat.status}" ></td>
+                        <td th:text="${seat.price}" ></td>
+                        <td><a class="btn btn-primary card-link" role="addCartItem" th:attr="data-flightId=${data.flight.id}, data-flightSeatId=${seat.id}"
+                               th:classappend="${#strings.equals(seat.status, 'CLOSED')} ? disabled : ''">Забронировать</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

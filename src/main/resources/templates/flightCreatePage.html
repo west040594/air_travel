@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head th:replace="layout :: common_header(~{::title})">
+    <meta charset="UTF-8">
+    <title>Создать рейсс</title>
+</head>
+<body>
+    <section th:replace="layout :: nav-section"></section>
+    <div class="my-md-4 container">
+        <form method="post" th:action="@{/flight/create}" id="createFlightForm" th:object="${flightForm}">
+
+            <div class="form-group">
+                <label for="name" class="control-label">Номер рейса</label>
+                <input id="name" class="form-control" th:field="*{flightNumber}"/>
+                <p th:each="error: ${#fields.errors('flightNumber')}"
+                   th:text="${error}">Ошибка валидации</p>
+            </div>
+
+            <div class="form-group">
+                <label for="origination" class="control-label">Вылет из</label>
+                <select id="origination"  class="form-control" th:field="*{originationId}">
+                    <option th:each="airport : ${data.airports}"
+                            th:value="${airport.id}"
+                            th:text="${airport.name}"></option>
+                </select>
+                <p th:each="error : ${#fields.errors('originationId')}"
+                   th:text="${error}">Ошибка валидации</p>
+            </div>
+
+
+            <div class="form-group">
+                <label for="destination" class="control-label">Прилет в</label>
+                <select id="destination"  class="form-control" th:field="*{destinationId}">
+                    <option th:each="airport : ${data.airports}"
+                            th:value="${airport.id}"
+                            th:text="${airport.name}"></option>
+                </select>
+                <p th:each="error : ${#fields.errors('destinationId')}"
+                   th:text="${error}">Ошибка валидации</p>
+            </div>
+
+            <div class="form-group">
+                <label for="airline" class="control-label">Авиакомпания</label>
+                <select id="airline"  class="form-control" th:field="*{airlineId}">
+                    <option th:each="airline : ${data.airlines}"
+                            th:value="${airline.id}"
+                            th:text="${airline.name}"></option>
+                </select>
+                <p th:each="error : ${#fields.errors('airlineId')}"
+                   th:text="${error}">Ошибка валидации</p>
+            </div>
+
+
+            <div class="form-group">
+                <label for="aircraft" class="control-label">Самолёт</label>
+                <select id="aircraft"  class="form-control" th:field="*{aircraftId}">
+                    <option th:each="aircraft : ${data.aircrafts}"
+                            th:value="${aircraft.id}"
+                            th:text="${aircraft.manufacturer.name} + ' ' +  ${aircraft.modelNumber} "></option>
+                </select>
+                <p th:each="error : ${#fields.errors('aircraftId')}"
+                   th:text="${error}">Ошибка валидации</p>
+            </div>
+
+
+            <div class="form-group">
+                <label for="economyClassPrice" class="control-label">Цена на эконом класс</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">₽</span>
+                    </div>
+                    <input id="economyClassPrice" type="text" class="form-control" th:field="*{economyClassPrice}">
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
+                <p th:each="error: ${#fields.errors('economyClassPrice')}"
+                   th:text="${error}">Ошибка валидации</p>
+            </div>
+
+
+            <div class="form-group">
+                <label for="businessClassPrice" class="control-label">Цена на бизнес класс</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">₽</span>
+                    </div>
+                    <input id="businessClassPrice" type="text" class="form-control" th:field="*{businessClassPrice}">
+                    <div class="input-group-append">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
+                <p th:each="error: ${#fields.errors('businessClassPrice')}"
+                   th:text="${error}">Ошибка валидации</p>
+            </div>
+
+
+            <div class="form-group">
+                <label for="departureTime" class="control-label">Вылет</label>
+                <div class='input-group date' id='datetimepickerDeparture'>
+                    <input id="departureTime" class="form-control" th:field="*{departureTime}" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="arrivalTime" class="control-label">Прилёт</label>
+                <div class='input-group date' id='datetimepickerArrival'>
+                    <input id="arrivalTime" data-date-format="dd/mm/yyyy" class="form-control" th:field="*{arrivalTime}" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Принять</button>
+        </form>
+
+    </div>
+
+    <script>
+        $(function() {
+            $('#departureTime').datetimepicker('show');
+        });
+    </script>
+
+</body>
+</html>
